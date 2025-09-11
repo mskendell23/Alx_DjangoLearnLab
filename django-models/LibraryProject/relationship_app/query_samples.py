@@ -35,7 +35,7 @@ def run_queries():
     librarian_name = "Han Smith"
     try:
         library = Library.objects.get(name=library_name)
-        librarian = library.librarian # OnetoOneField related
+        librarian = Librarian.objects.get(library=library) # OnetoOneField related
         print(f"\nThe librarian for {library.name} is {librarian.name}") #OnetoOneField related_name
     except Library.DoesNotExist:
         print(f"No library found with name '{library_name}'")

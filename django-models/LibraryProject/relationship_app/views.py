@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.http import HttpResponse
 from django.views.generic import DetailView
 from . models import Book
-from . models import Library
+from .models import Library
 from . forms import BookForm
 
 # View Request
