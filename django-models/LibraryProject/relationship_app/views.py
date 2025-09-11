@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import permission_required, user_passes_test, login_required
 from django.http import HttpResponse
-from django.views.generic import DetailView
+from django.views.generic.detail import DetailView
 from . models import Book
 from .models import Library
 from . forms import BookForm
