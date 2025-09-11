@@ -13,9 +13,9 @@ def run_queries():
     author_name = "John Doe"
     try:
         author = Author.objects.get(name=author_name)
-        books = author.books.all()
+        books_by_author = Book.objects.filter(author=author)
         print(f"Books by {author.name}:")
-        for book in books:
+        for book in books_by_author:
             print("-", book.title)
     except Author.DoesNotExist:
         print(f"No author found with name '{author_name}'")
@@ -24,8 +24,9 @@ def run_queries():
     library_name = "First Library"
     try:
         library = Library.objects.get(name=library_name)
+        books_in_library = library.books.all()
         print(f"\nBooks in {library.name}:")
-        for book in library.books.all():
+        for book in books_in_library:
             print("-", book.title)
     except Library.DoesNotExist:
         print(f"No library found with name '{library_name}'")

@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
 from relationship_app import views # type: ignore
 
 urlpatterns = [
@@ -24,10 +23,5 @@ urlpatterns = [
     path('books/', include('bookshelf.urls')), # bookshelf app urls
     path('r_app/', include("relationship_app.urls")), # relationship_app urls
     path('accounts/register/', views.register, name='register'), # custom registration
-   
-    # Override login/logout with custom templates
-    path('accounts/login/', auth_views.LoginView.as_view(template_name="relationship_app/login.html"), name="login"),
-    path('accounts/logout/', auth_views.LogoutView.as_view(template_name="relationship_app/logout.html"), name="logout"),
-
     path('accounts/', include('django.contrib.auth.urls')), # login/logout/password reset
 ]

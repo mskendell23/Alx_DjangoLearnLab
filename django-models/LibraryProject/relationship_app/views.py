@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
-from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
+from django.contrib.auth.decorators import permission_required, user_passes_test, login_required
 from django.http import HttpResponse
 from django.views.generic import DetailView
 from . models import Book
@@ -16,12 +16,12 @@ def relationship_app(request):
 def list_books(request):
     books = Book.objects.all()
     context = {"list_books": books} 
-    return render(request, 'relationship_app/templates/list_books.html', context)
+    return render(request, 'relationship_app/list_books.html', context)
 
 # Class-based View
 class LibraryDetails(DetailView):
     model = Library
-    template_name = 'relationship_app/templates/library_detail.html'
+    template_name = 'relationship_app/library_detail.html'
     context_object_name = "library"
 
 
