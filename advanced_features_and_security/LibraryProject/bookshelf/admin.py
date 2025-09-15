@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin as UserAdmin
+from django.contrib.auth.admin import UserAdmin as CustomUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from .models import Book, CustomUser
@@ -50,7 +50,7 @@ class CustomUserChangeForm(forms.ModelForm):
         model = CustomUser
         fields = ["email", "password", "date_of_birth", "profie_photo", "is_active", "is_admin"]
 
-class ModelAdmin(UserAdmin):
+class ModelAdmin(CustomUserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
@@ -78,7 +78,7 @@ class ModelAdmin(UserAdmin):
     filter_horizontal = []
 
 # Register the new UserAdmin
-admin.site.register(CustomUser, UserAdmin)
+admin.site.register(CustomUser, CustomUserAdmin)
 
 # Unregister the Group model from admin
 admin.site.unregister(Group)
