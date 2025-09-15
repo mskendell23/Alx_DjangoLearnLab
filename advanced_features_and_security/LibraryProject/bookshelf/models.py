@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 
 # Book Model.
 class Book(models.Model):
@@ -11,7 +11,7 @@ class Book(models.Model):
         return f"{self.title} by {self.author} published in the year {self.publication_year}"
 
 # Custom User Model
-class CustomUserManager(UserManager):
+class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError("No valid email address was entered.")
