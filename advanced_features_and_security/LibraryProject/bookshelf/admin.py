@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from django.contrib.auth.admin import UserAdmin as CustomUserAdmin
+from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from .models import Book, CustomUser
@@ -19,7 +19,7 @@ class BookAdmin(admin.ModelAdmin):
     # Search by title or author
     search_fields = ("title", "author")
 
-# CustomUser
+# CustomUser Forms
 class CustomUserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
@@ -30,8 +30,8 @@ class CustomUserCreationForm(forms.ModelForm):
 
     def clean_password2(self):
         # Check that the two password entries match
-        password1 = self.cleaned_data.get(password1)
-        password2 = self.cleaned_data.get(password2)
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
             raise ValidationError("Passwords don't match")
         return password2
@@ -48,37 +48,35 @@ class CustomUserChangeForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ["email", "password", "date_of_birth", "profie_photo", "is_active", "is_admin"]
+        fields = ["email", "password", "date_of_birth", "profile_photo", "is_active", "is_admin"]
 
-class ModelAdmin(CustomUserAdmin):
+# Custom Admin
+class ModelAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
 
     # The fields to be used in displaying the CustomUser model.
-    list_display = ["email", "password", "date_of_birth", "profie_photo"]
-    list_filter = ["is_admin"]
+    list_display = ["email", "password", "date_of_birth", "profile_photo", "is_active", "is_admin"]
+    list_filter = ["is_active", "is_superuser"]
     fieldsets = [
         (None, {"fields": ["email", "password"]}),
         ("Personal info", {"fields": ["date_of_birth", "profile_photo"]}),
-        ("Permissions", {"fields": ["is_admin"]}),
+        ("Permissions", {"fields": ["is_admin", "is_superuser", "is_active"]}),
     ]
 
     # Override get_fieldsets with add_fieldsets
     add_fieldsets = [
-        (
-            None,
-            {
+        (None, {
                 "classes": ["wide"],
                 "fields": ["email", "password1", "password2", "date_of_birth", "profile_photo"],
-            },
-        ),
+            }),
     ]
     search_fields = ["email"]
     ordering = ["email"]
     filter_horizontal = []
 
 # Register the new UserAdmin
-admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomUser, ModelAdmin)
 
 # Unregister the Group model from admin
 admin.site.unregister(Group)

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Book Model.
 class Book(models.Model):
@@ -9,6 +9,14 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.author} published in the year {self.publication_year}"
+    
+    class Meta:
+        permissions = [
+            ("can_view", "Can view a book"),
+            ("can_create", "Can create a new book"),
+            ("can_edit", "Can edit a book"),
+            ("can_delete", "Can delete a book"),
+        ]
 
 # Custom User Model
 class CustomUserManager(BaseUserManager):
@@ -27,7 +35,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault("is_admin", True)
         extra_fields.setdefault("is_superuser", True)
 
-        return self.create_user(self, email, password, **extra_fields)
+        return self.create_user(email, password, **extra_fields)
     
 
 class CustomUser(AbstractUser):
@@ -35,7 +43,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length= 100, blank=True)
     email = models.EmailField(unique=True) 
     date_of_birth = models.DateField()
-    profile_photo = models.ImageField()
+    profile_photo = models.ImageField(upload_to="profiles/", blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -47,14 +55,8 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
     
-    def has_perm(self, perm, obj = None):
-        "Does the user have a specific permission?"
-        return True
     
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the 'app_label'?"
-        return True
-    
+    @property
     def is_staff(self):
         "Is user a member of staff?"
         return self.is_admin
