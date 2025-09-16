@@ -21,7 +21,7 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, "register.html", {"form": form})
 
-# User permissions
+# User permissions for book_list
 @permission_required("bookshelf.can_edit", raise_exception=True)
 def edit_book(request):
     return HttpResponse ("Book edited")
