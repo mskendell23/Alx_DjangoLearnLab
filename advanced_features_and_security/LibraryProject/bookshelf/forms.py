@@ -7,4 +7,8 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = CustomUser
         fields = UserCreationForm.Meta.fields 
-        
+
+class ExampleForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ["title", "author"]
