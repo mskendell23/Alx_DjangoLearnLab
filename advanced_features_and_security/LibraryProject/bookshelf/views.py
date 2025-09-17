@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 from .forms import CustomUserCreationForm
@@ -43,8 +43,8 @@ def delete_book(request):
 def login(request):
     if request.method == "POST":
         forms = ExampleForm(request.POST)
-        if form.is_valid():
-            user = form.save()
+        if forms.is_valid():
+            user = forms.save()
             login(request, user)
 
             return redirect("success")
