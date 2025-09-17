@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ExampleForm
 from django.contrib.auth import login
 
 # Http Response
