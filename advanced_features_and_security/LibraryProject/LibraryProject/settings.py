@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-+mwy=6@!pwqbxpja05%ceqtg^fykyc&w_)@z&j^au9+j-7*a3+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf.apps.BookshelfConfig',
     'relationship_app.apps.RelationshipAppConfig',
+    'django_secure',
 ]
 
 MIDDLEWARE = [
@@ -130,3 +131,10 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 # Media files uploads
 MEDIA_URL ='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Security settings
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
