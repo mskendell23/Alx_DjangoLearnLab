@@ -37,3 +37,13 @@ def view_book(request):
 @permission_required("bookshelf.can_delete", raise_exception=True)
 def delete_book(request):
     return HttpResponse ("Book deleted")
+
+# Login
+def login(request):
+    if request.method == "POST":
+        forms = ExampleForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+
+            return redirect("success")
