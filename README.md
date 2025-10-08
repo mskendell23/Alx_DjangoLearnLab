@@ -1,4 +1,4 @@
-1. Permissions Set up
+1\. Permissions Set up
 
 In the views.py file, define custom permissions
 
